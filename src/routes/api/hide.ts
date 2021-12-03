@@ -1,9 +1,11 @@
 import type { Response, Request } from '@sveltejs/kit';
 import type { ResponseHeaders } from '@sveltejs/kit/types/helper';
-import type { SecretContent, PlainContent } from '$lib/types';
+import type { SecretContent, EncryptedContent } from '$lib/types';
+import { secretContentValidation } from '$lib/validations';
+import { encrypt } from '$lib/crypto';
 import crypto from 'crypto';
 
-export const post = async (request: Request<any, PlainContent>): Promise<Response> => {
+export const post = async (request: Request<any, SecretContent>): Promise<Response> => {
 
     let headers: ResponseHeaders = {
         'Content-type': 'application/json; charset=UTF-8'
@@ -16,27 +18,24 @@ export const post = async (request: Request<any, PlainContent>): Promise<Respons
         };
     }
 
-    const secretKey = 'vOVH6sdmpNWjRRIqCc7rdxs01lwHzfr3';
+    var secretContent: SecretContent = request.body;
+
+    await secretContentValidation.validate(secretContent)
+
+    const secretContentString = JSON.stringify({
+        secret: secretContent.secret,
+        expiration: secretContent.expiration
+    });
+
     const iv = crypto.randomBytes(16);
 
-    var encrypted = encrypt(request.body.text, secretKey, iv);
-
-    var data : SecretContent = {
-        secret: encrypted + "." + iv.toString('hex')
+    var encryptedContent: EncryptedContent = {
+        encrypted: encrypt(secretContentString, secretContent.passphrase, iv) + "." + iv.toString('hex')
     };
 
     return {
         status: 200,
-        body: JSON.stringify(data),
+        body: JSON.stringify(encryptedContent),
         headers: headers
     }
 }
-
-const encrypt = (text: string, secretKey: string, iv: Buffer): string => {
-
-    const cipher = crypto.createCipheriv('aes-256-ctr', secretKey, iv);
-
-    const encrypted = Buffer.concat([cipher.update(text), cipher.final()]);
-
-    return encrypted.toString('hex');
-};

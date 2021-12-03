@@ -1,30 +1,26 @@
 import crypto from 'crypto';
-import type { EncryptedContent } from './types';
+import { getServerConfiguration } from './config';
 
 const algorithm = 'aes-256-ctr';
-const secretKey = 'vOVH6sdmpNWjRRIqCc7rdxs01lwHzfr3';
-const iv = crypto.randomBytes(16);
 
-const encrypt = (text: string, passPhrase: string): string => {
+export const encrypt = (text: string, passPhrase: string, iv: Buffer): string => {
 
-    const localSecret = secretKey + passPhrase;
-    const cipher = crypto.createCipheriv(algorithm, localSecret, iv);
+    const localSecret = getServerConfiguration().secretKey + passPhrase;
+
+    const key = crypto.pbkdf2Sync(localSecret, passPhrase, 42000, 32, 'sha256');
+
+    const cipher = crypto.createCipheriv(algorithm, key, iv);
 
     const encrypted = Buffer.concat([cipher.update(text), cipher.final()]);
 
-    return encrypted.toString('hex') + " . " + iv.toString('hex');
+    return encrypted.toString('hex');
 };
 
-const decrypt = (hash: EncryptedContent): string => {
+// export const decrypt = (hash: EncryptedContent): string => {
 
-    const decipher = crypto.createDecipheriv(algorithm, secretKey, Buffer.from(hash.iv, 'hex'));
+//     const decipher = crypto.createDecipheriv(algorithm, secretKey, Buffer.from(hash.iv, 'hex'));
 
-    const decrpyted = Buffer.concat([decipher.update(Buffer.from(hash.encrypted, 'hex')), decipher.final()]);
+//     const decrpyted = Buffer.concat([decipher.update(Buffer.from(hash.encrypted, 'hex')), decipher.final()]);
 
-    return decrpyted.toString();
-};
-
-module.exports = {
-    encrypt,
-    decrypt
-};
+//     return decrpyted.toString();
+// };
