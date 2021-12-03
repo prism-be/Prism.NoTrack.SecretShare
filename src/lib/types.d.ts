@@ -1,7 +1,17 @@
-/**
- * Can be made globally available by placing this
- * inside `global.d.ts` and removing `export` keyword
- */
-export interface Locals {
-	userid: string;
+﻿export interface SecretContent {
+    secret: string;
+    passphrase: string;
+    expiration: number;
+}
+
+export interface PlainContent
+{
+    text: string;
+}
+
+export interface EncryptedContent
+{
+    encrypted: string;
+    iv: string;
+    passPhrase: string;
 }

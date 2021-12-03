@@ -1,5 +1,5 @@
-import adapter from '@sveltejs/adapter-auto';
 import preprocess from 'svelte-preprocess';
+import azure from 'svelte-adapter-azure-swa';
 
 /** @type {import('@sveltejs/kit').Config} */
 const config = {
@@ -14,7 +14,7 @@ const config = {
 	],
 
 	kit: {
-		adapter: adapter(),
+		adapter: azure(),
 
 		// hydrate the <div id="svelte"> element in src/app.html
 		target: '#svelte',

@@ -1,38 +1,32 @@
-# create-svelte
+# The NoTrack project
+The No-Track project is a set of tools that can be used :
+- For free
+- Without any ads
+- Without any tracking
+  
+The only limitation is a rate limit to avoid spam.
 
-Everything you need to build a Svelte project, powered by [`create-svelte`](https://github.com/sveltejs/kit/tree/master/packages/create-svelte);
+I hope you will use it with respect of the work being done.
 
-## Creating a project
+## What is the SecretShare ?
 
-If you're seeing this, you've probably already done this step. Congrats!
+TODO
 
-```bash
-# create a new project in the current directory
-npm init svelte@next
+## Free to use, but not to run
+Of course, these tools are not free to run. I make these because I really like the old web, with no ad, no track and simple content.
 
-# create a new project in my-app
-npm init svelte@next my-app
-```
+If you want to support this project, you are welcome to :
 
-> Note: the `@next` is temporary
+- [Buy me a coffee (2.5€)](https://buy.stripe.com/fZe29I2zJ1co9peaEE)
+- [Buy me a beer (5.0€)](https://buy.stripe.com/fZebKi7U38EQ9peeUV)
+- [Buy me a rhum (10.0€)](https://buy.stripe.com/14k7u23DNcV69pe28a)
 
-## Developing
+## Another way to support ?
+Yes, of course ! This is an open source project, you can fork it and add the feature you want.
 
-Once you've created a project and installed dependencies with `npm install` (or `pnpm install` or `yarn`), start a development server:
+This is stored in GitHub : Prism.NoTrack.SecretShare.
 
-```bash
-npm run dev
+## Bugs ? Support ?
+This project is made on personal time, with the use of beta version of SvelteKit. there can be bugs, I can take time to fix them.
 
-# or start the server and open the app in a new browser tab
-npm run dev -- --open
-```
-
-## Building
-
-Before creating a production version of your app, install an [adapter](https://kit.svelte.dev/docs#adapters) for your target environment. Then:
-
-```bash
-npm run build
-```
-
-> You can preview the built app with `npm run preview`, regardless of whether you installed an adapter. This should _not_ be used to serve your app in production.
+So, you use this tool as is, without any guarantee. You can always open an issue in the GitHub below.
