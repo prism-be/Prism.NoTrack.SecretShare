@@ -12,11 +12,11 @@ export function getServerConfiguration(): IServerConfiguration {
 }
 
 function getEnv(envKey: string): string {
-    const value = process.env[envKey]?.toString();
+    const value = process.env[envKey];
 
     if (value == null || value === '') {
         throw new Error(`The environment variable '${envKey}' has not been set.`);
     }
 
-    return value;
+    return value.toString();
 }
