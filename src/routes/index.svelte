@@ -5,6 +5,7 @@
 <script lang="ts">
 	import Hide from '$lib/components/Hide.svelte';
 	import Reveal from '$lib/components/Reveal.svelte';
+	import About from '$lib/components/About.svelte';
 	import { Col, Container, Row, TabContent, TabPane } from 'sveltestrap';
 </script>
 
@@ -26,6 +27,9 @@
 		</TabPane>
 		<TabPane tabId="reveal" tab="Reveal your secret">
 			<Reveal />
+		</TabPane>
+		<TabPane tabId="about" tab="About">
+			<About />
 		</TabPane>
 	</TabContent>
 </Container>

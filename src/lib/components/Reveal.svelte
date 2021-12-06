@@ -2,14 +2,16 @@
 	import type { EncryptedContent, RevealedContent } from '$lib/types';
 	import { encryptedContentValidation } from '$lib/validations';
 
-	import { Row, Col, Container, Form, FormGroup, Label, Input, Button, InputGroup, InputGroupText, Card, CardBody } from 'sveltestrap';
+	import { Row, Col, Container, Form, FormGroup, Label, Input, Button, Card, CardBody, Alert } from 'sveltestrap';
 
 	let passphrase = '';
 	let encrypted = '';
-    let secret = '';
+	let secret = '';
 
 	let isEncryptedInvalid = false;
 	let isPasshraseInvalid = false;
+
+	let errorOccured = false;
 
 	async function doReveal(e: Event) {
 		e.preventDefault();
@@ -20,21 +22,28 @@
 		};
 
 		isEncryptedInvalid = isPasshraseInvalid = false;
+		errorOccured = false;
+		secret = '';
 
 		try {
 			await encryptedContentValidation.validate(secretContent);
+			try {
+				const response = await fetch('/api/reveal', {
+					method: 'POST',
+					body: JSON.stringify(secretContent),
+					headers: {
+						'Content-type': 'application/json; charset=UTF-8'
+					}
+				});
 
-			const response = await fetch('/api/reveal', {
-				method: 'POST',
-				body: JSON.stringify(secretContent),
-				headers: {
-					'Content-type': 'application/json; charset=UTF-8'
-				}
-			});
+				errorOccured = response.status !== 200;
 
-			var content: RevealedContent = await response.json();
+				var content: RevealedContent = await response.json();
 
-			secret = content.secret;
+				secret = content.secret;
+			} catch {
+				errorOccured = true;
+			}
 		} catch (ex) {
 			ex.errors.forEach((error: string) => {
 				switch (error) {
@@ -72,6 +81,13 @@
 						<Button type="submit">Reveal this !</Button>
 					</FormGroup>
 				</Form>
+
+				{#if errorOccured}
+					<Alert color="warning">
+						<h4 class="alert-heading text-capitalize">An error occured while revealing your secret</h4>
+						Your secret cannot be revealed, maybe it's expired or it's the wrong pass phrase.
+					</Alert>
+				{/if}
 			</Col>
 		</Row>
 	</Row>
