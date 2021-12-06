@@ -18,6 +18,7 @@ jobs:
       - name: Checkout Sources
         uses: actions/checkout@v2
         with:
+          version: 6.23.6
           submodules: true
       
       - name: Setup PNPM
