@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { Row, Col, Container, Form, FormGroup, Label, Input, Button, InputGroup, InputGroupText } from 'sveltestrap';
+	import { Row, Col, Container, Form, FormGroup, Label, Input, Button, InputGroup, InputGroupText, Card, CardBody } from 'sveltestrap';
 	import type { SecretContent, EncryptedContent } from '$lib/types';
 	import { secretContentValidation } from '$lib/validations';
 	import { addSeconds, format, getUnixTime } from 'date-fns';
@@ -12,6 +12,7 @@
 	let isSecretInvalid = false;
 	let isPasshraseInvalid = false;
 	let isExpirationInvalid = false;
+	let encrypted = '';
 
 	function computeExpiration(): number {
 		let seconds = 0;
@@ -55,10 +56,9 @@
 				}
 			});
 
-			var content : EncryptedContent = await response.json();
+			var content: EncryptedContent = await response.json();
 
-			console.log(content);
-
+			encrypted = content.encrypted;
 		} catch (ex) {
 			ex.errors.forEach((error: string) => {
 				switch (error) {
@@ -124,4 +124,15 @@
 			</Form>
 		</Col>
 	</Row>
+	{#if encrypted.length !== 0}
+		<Row class="pb-3">
+			<Col>
+				<h3>Your encrypted secret</h3>
+				<p><i>You can share it, the recipient must have the passphrase to decrypt it, until {computedExpiration}.</i></p>
+				<Card>
+					<CardBody>{encrypted}</CardBody>
+				</Card>
+			</Col>
+		</Row>
+	{/if}
 </Container>

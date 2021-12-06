@@ -3,7 +3,7 @@ import { getServerConfiguration } from './config';
 
 const algorithm = 'aes-256-ctr';
 
-export const encrypt = (text: string, passPhrase: string, iv: Buffer): string => {
+export const encrypt = (text: string, passPhrase: string, iv: Buffer): Buffer => {
 
     const localSecret = getServerConfiguration().secretKey + passPhrase;
 
@@ -13,7 +13,7 @@ export const encrypt = (text: string, passPhrase: string, iv: Buffer): string =>
 
     const encrypted = Buffer.concat([cipher.update(text), cipher.final()]);
 
-    return encrypted.toString('hex');
+    return encrypted;
 };
 
 // export const decrypt = (hash: EncryptedContent): string => {
