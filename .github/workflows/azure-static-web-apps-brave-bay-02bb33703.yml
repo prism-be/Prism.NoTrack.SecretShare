@@ -18,12 +18,12 @@ jobs:
       - name: Checkout Sources
         uses: actions/checkout@v2
         with:
-          version: 6.23.6
           submodules: true
       
       - name: Setup PNPM
         uses: pnpm/action-setup@v2.0.1
         with:
+          version: 6.23.6
           run_install: true
           
       - name: Build
