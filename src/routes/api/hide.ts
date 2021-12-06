@@ -30,7 +30,8 @@ export const post = async (request: Request<any, SecretContent>): Promise<Respon
     const iv = crypto.randomBytes(16);
 
     var encryptedContent: EncryptedContent = {
-        encrypted: encrypt(secretContentString, secretContent.passphrase, iv).toString('hex') + "." + iv.toString('hex')
+        encrypted: encrypt(secretContentString, secretContent.passphrase, iv).toString('hex') + "." + iv.toString('hex'),
+        passphrase: secretContent.passphrase
     };
 
     return {

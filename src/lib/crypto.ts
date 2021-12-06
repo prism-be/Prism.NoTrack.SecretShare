@@ -16,11 +16,12 @@ export const encrypt = (text: string, passPhrase: string, iv: Buffer): Buffer =>
     return encrypted;
 };
 
-// export const decrypt = (hash: EncryptedContent): string => {
+export const decrypt = (encrypted: string, iv: string, passPhrase: string): string => {
+    const localSecret = getServerConfiguration().secretKey + passPhrase;
+    const key = crypto.pbkdf2Sync(localSecret, passPhrase, 42000, 32, 'sha256');
 
-//     const decipher = crypto.createDecipheriv(algorithm, secretKey, Buffer.from(hash.iv, 'hex'));
+    const decipher = crypto.createDecipheriv(algorithm, key, Buffer.from(iv, 'hex'));
+    const decrypted = Buffer.concat([decipher.update(Buffer.from(encrypted, 'hex')), decipher.final()]);
 
-//     const decrpyted = Buffer.concat([decipher.update(Buffer.from(hash.encrypted, 'hex')), decipher.final()]);
-
-//     return decrpyted.toString();
-// };
+    return decrypted.toString();
+};

@@ -5,3 +5,8 @@ export const secretContentValidation = yup.object().shape({
     passphrase: yup.string().required('passphrase'),
     expiration: yup.number().required('expiration').positive('expiration'),
 });
+
+export const encryptedContentValidation = yup.object().shape({
+    encrypted: yup.string().required('encrypted'),
+    passphrase: yup.string().required('passphrase')
+});

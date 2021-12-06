@@ -7,4 +7,9 @@
 export interface EncryptedContent
 {
     encrypted: string;
+    passphrase: string;
+}
+
+export interface RevealedContent {
+    secret: string;
 }
