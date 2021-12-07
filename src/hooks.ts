@@ -1,6 +1,6 @@
 import type { Handle } from '@sveltejs/kit';
 import { getUserIp, rateLimiter } from '$lib/rate-limit';
-/*
+
 export const handle: Handle = async ({ request, resolve }) => {
 
     const userIp = getUserIp(request.headers);
@@ -28,4 +28,4 @@ export const handle: Handle = async ({ request, resolve }) => {
             ...response.headers,
         }
     };
-}*/
+}
