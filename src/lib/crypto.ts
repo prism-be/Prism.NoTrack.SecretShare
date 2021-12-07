@@ -3,7 +3,14 @@ import { getServerConfiguration } from './config';
 
 const algorithm = 'aes-256-ctr';
 
-export const encrypt = (text: string, passPhrase: string, iv: Buffer): Buffer => {
+export interface Encrypted {
+    iv: Buffer;
+    data: Buffer;
+}
+
+export const encrypt = (text: string, passPhrase: string): Encrypted => {
+
+    const iv = crypto.randomBytes(16);
 
     const localSecret = getServerConfiguration().secretKey + passPhrase;
 
@@ -11,9 +18,12 @@ export const encrypt = (text: string, passPhrase: string, iv: Buffer): Buffer =>
 
     const cipher = crypto.createCipheriv(algorithm, key, iv);
 
-    const encrypted = Buffer.concat([cipher.update(text), cipher.final()]);
+    const data = Buffer.concat([cipher.update(text), cipher.final()]);
 
-    return encrypted;
+    return {
+        data,
+        iv
+    };
 };
 
 export const decrypt = (encrypted: string, iv: string, passPhrase: string): string => {

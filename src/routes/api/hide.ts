@@ -3,7 +3,6 @@ import type { ResponseHeaders } from '@sveltejs/kit/types/helper';
 import type { SecretContent, EncryptedContent } from '$lib/types';
 import { secretContentValidation } from '$lib/validations';
 import { encrypt } from '$lib/crypto';
-import crypto from 'crypto';
 
 export const post = async (request: Request<any, SecretContent>): Promise<Response> => {
 
@@ -27,10 +26,10 @@ export const post = async (request: Request<any, SecretContent>): Promise<Respon
         expiration: secretContent.expiration
     });
 
-    const iv = crypto.randomBytes(16);
+    const encrypted  = encrypt(secretContentString, secretContent.passphrase);
 
     var encryptedContent: EncryptedContent = {
-        encrypted: encrypt(secretContentString, secretContent.passphrase, iv).toString('hex') + "." + iv.toString('hex'),
+        encrypted: encrypted.data.toString('hex') + "." + encrypted.iv.toString('hex'),
         passphrase: secretContent.passphrase
     };
 
