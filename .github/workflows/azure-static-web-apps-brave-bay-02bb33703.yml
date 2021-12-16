@@ -32,7 +32,7 @@ jobs:
           
       - run: pnpm run build
       
-      - run: cp /build/staticwebapp.config.json /build/static
+      - run: cp build/staticwebapp.config.json build/static
           
       - name: Deploy to Azure Static App
         id: builddeploy
