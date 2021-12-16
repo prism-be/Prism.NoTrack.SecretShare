@@ -31,6 +31,8 @@ jobs:
           node-version: '16'
           
       - run: pnpm run build
+      
+      - run: cp /build/staticwebapp.config.json /build/static
           
       - name: Deploy to Azure Static App
         id: builddeploy
@@ -39,9 +41,9 @@ jobs:
           azure_static_web_apps_api_token: ${{ secrets.AZURE_STATIC_WEB_APPS_API_TOKEN_BRAVE_BAY_02BB33703 }}
           repo_token: ${{ secrets.GITHUB_TOKEN }}
           action: "upload"
-          app_location: "/"
+          app_location: "/build/static"
           api_location: "/api"
-          output_location: "/build/static"
+          output_location: ""
           skip_app_build: true
 
   close_pull_request_job:
