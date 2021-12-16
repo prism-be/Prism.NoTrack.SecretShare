@@ -10,7 +10,16 @@ I hope you will use it with respect of the work being done.
 
 ## What is the SecretShare ?
 
-TODO
+- It's a simple tool that encrypt a secret with a pass phrase and a secret key.
+- You can only decrypt the secret here, because the secret key is on the server.
+- We cannot decrypt the secret without you, because we don't know your passphrase.
+
+## What is tracked ?
+
+Short answer is nothing. The long answer is, of course there are some technical logs on the servers, but without any user informations.
+Nothing else :)
+
+If you want to be sure of that, you can check by yourself on this repository.
 
 ## Free to use, but not to run
 Of course, these tools are not free to run. I make these because I really like the old web, with no ad, no track and simple content.
